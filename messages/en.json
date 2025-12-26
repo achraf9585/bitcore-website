@@ -1,0 +1,63 @@
+{
+  "Navbar": {
+    "fivem": "FiveM ",
+    "web": "Web Development",
+    "design": "Design",
+    "contact": "Contact",
+    "title": "Bitcore Solution"
+  },
+  "Hero": {
+    "badge": "Next-Gen Development",
+    "title": "BITCORE",
+    "description": "Mastering the art of FiveM , Web Development, and Digital Design.",
+    "explore": "Explore Services",
+    "contact": "Contact Us"
+  },
+  "About": {
+    "title": "Building the Future of Digital Experiences",
+    "p1": "At Bitcore Solution, we are more than just developers; we are architects of the digital realm. Founded with a passion for innovation, we bridge the gap between complex backend logic and stunning frontend aesthetics.",
+    "p2": "Whether it's crafting immersive FiveM  that redefine gameplay, building responsive web applications, or designing user interfaces that intuitively guide the user, our team is dedicated to perfection.",
+    "precisionTitle": "Precision Driven",
+    "precisionDesc": "Every pixel and line of code is calculated for maximum impact.",
+    "performanceTitle": "Performance First",
+    "performanceDesc": "Optimized solutions that run smoothly on any platform."
+  },
+  "Services": {
+    "title": "Our Expertise",
+    "subtitle": "We deliver excellence across three core pillars of digital creation.",
+    "fivemTitle": "FiveM  Development",
+    "fivemDesc": "High-performance, optimized  for your FiveM server. Custom frameworks, UIs, and complex systems.",
+    "webTitle": "Web Development",
+    "webDesc": "Modern, responsive websites and web applications built with Next.js, React, and cutting-edge technologies.",
+    "designTitle": " Design",
+    "designDesc": "Stunning user interfaces and creative designs that captivate your audience and enhance user experience."
+  },
+  "Testimonials": {
+    "title": "Client Stories",
+    "subtitle": "Don't just take our word for it. Here is what our partners have to say.",
+    "t1": "The FiveM  provided by Bitcore transformed our server. The optimization is incredible, and the players love the new features!",
+    "t2": "We needed a website that popped, and they delivered. The design is sleek, modern, and exactly what we envisioned for our brand.",
+    "t3": "Working with the design team was a breeze. They understood our aesthetic immediately and delivered assets that were production-ready.",
+    "t4": "Exceptional support and quality code. Every issue we had was resolved quickly. Highly recommend for any serious project."
+  },
+  "Contact": {
+    "title": "Let's Create Together",
+    "subtitle": "Ready to start your next project? Get in touch with us today.",
+    "emailTitle": "Email Us",
+    "callTitle": "Call Us",
+    "locationTitle": "Location",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message"
+  },
+  "Footer": {
+    "desc": "Pushing the boundaries of what's possible in the digital realm.",
+    "services": "Services",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "rights": "All rights reserved."
+  }
+}
