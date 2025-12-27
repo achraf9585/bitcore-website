@@ -33,7 +33,7 @@ export function Navbar() {
           font-[family-name:var(--font-montserrat)] font-medium
         `}>
             <Link href="/" className="flex items-center gap-2 group">
-                <div className="relative h-12 w-48 opacity-90 group-hover:opacity-100 transition-opacity">
+                <div className="relative h-16 mb-2 w-32 opacity-90 group-hover:opacity-100 transition-opacity">
                     <Image 
                         src="/logos/logo_header.png"  
                         alt={t('title')} 

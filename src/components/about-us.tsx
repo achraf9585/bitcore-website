@@ -87,25 +87,30 @@ export function AboutUs() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                animate={{ 
-                    y: [-15, 15, -15],
-                    rotate: [0, 2, -2, 0]
-                }}
-                transition={{ 
-                    duration: 6, 
-                    repeat: Infinity, 
-                    ease: "easeInOut" 
-                }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 className="relative z-10 w-full h-full flex items-center justify-center p-8"
              >
-                 {/* Image Container with Drop Shadow */}
-                 <div className="relative w-full max-w-[400px] drop-shadow-2xl filter hover:drop-shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-500">
-                    <img 
-                        src="/mascot.png" 
-                        alt="Bitcore Mascot" 
-                        className="w-full h-auto object-contain"
-                    />
-                 </div>
+                 <motion.div
+                    className="w-full flex justify-center"
+                    animate={{ 
+                        y: [-15, 15, -15],
+                        rotate: [0, 2, -2, 0]
+                    }}
+                    transition={{ 
+                        duration: 6, 
+                        repeat: Infinity, 
+                        ease: "easeInOut" 
+                    }}
+                 >
+                     {/* Image Container with Drop Shadow */}
+                     <div className="relative w-full max-w-[400px] drop-shadow-2xl filter hover:drop-shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-500">
+                        <img 
+                            src="/mascot.png" 
+                            alt="Bitcore Mascot" 
+                            className="w-full h-auto object-contain"
+                        />
+                     </div>
+                 </motion.div>
              </motion.div>
           </div>
         </div>
