@@ -87,7 +87,7 @@ export function AboutUs() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 2, ease: "easeOut" }}
                 className="relative z-10 w-full h-full flex items-center justify-center p-8"
              >
                  <motion.div

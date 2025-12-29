@@ -1,5 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
+import NextImage from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -336,6 +337,39 @@ export function ServiceDetail({ service, slug }: ServiceDetailProps) {
                   </motion.div>
                 ))}
               </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Partners Section - Web Development Only */}
+      {slug === 'web' && (
+        <section className="py-20 border-t border-white/5 bg-white/[0.02] overflow-hidden">
+          <div className="container mx-auto px-4 mb-12 text-center">
+             <h3 className="text-xl md:text-2xl font-semibold text-white/40 uppercase tracking-widest">Trusted Partners</h3>
+          </div>
+          
+          <div className="flex overflow-hidden relative w-full mask-linear-fade">
+             <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
+             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+             
+             <motion.div
+              className="flex gap-16 md:gap-24 items-center whitespace-nowrap pl-4"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+              style={{ width: "fit-content" }}
+            >
+              {[1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6].map((i, index) => (
+                <div key={index} className="relative w-32 h-16 md:w-40 md:h-20 opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer">
+                   {/* Placeholder for Partner Logos - Using main logo for demo */}
+                   <NextImage 
+                      src="/logos/logo_header.png" 
+                      alt={`Partner ${i}`} 
+                      fill 
+                      className="object-contain" 
+                   />
+                </div>
+              ))}
             </motion.div>
           </div>
         </section>

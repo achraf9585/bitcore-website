@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { Chatbot } from "@/components/chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -68,6 +69,7 @@ export default async function RootLayout({
               {children}
             </main>
             <Footer />
+            <Chatbot />
             </ThemeProvider>
         </NextIntlClientProvider>
       </body>
