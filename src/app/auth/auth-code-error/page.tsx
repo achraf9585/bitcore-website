@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export default function AuthErrorPage() {
+import { Suspense } from 'react'
+
+function AuthErrorContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
   const errorCode = searchParams.get('error_code')
@@ -48,5 +50,13 @@ export default function AuthErrorPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#050505] text-white">Loading...</div>}>
+      <AuthErrorContent />
+    </Suspense>
   )
 }

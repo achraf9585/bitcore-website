@@ -1,12 +1,10 @@
 "use client"
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetFooter } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/context/cart-context"
 import { ShoppingCart, Trash2, CreditCard } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area" // I need to check if ScrollArea exists. If not, I'll use a simple div.
-import { Separator } from "@/components/ui/separator"
-import { Link } from "@/i18n/routing"
+
 import { useState } from "react"
 
 export function CartSheet() {
