@@ -10,37 +10,56 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder"
 
 export async function POST(req: Request) {
   try {
-    const { packageName, price } = await req.json();
+    const { packageName, price, items } = await req.json();
 
-    // Basic validation
-    if (!packageName || !price) {
+    let line_items = [];
+
+    if (items && Array.isArray(items) && items.length > 0) {
+      line_items = items.map((item: any) => {
+        const match = item.price.toString().match(/[\d,]+/);
+        const numericPart = match ? match[0].replace(/,/g, '') : "0";
+        const numericPrice = parseInt(numericPart) || 0;
+        
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: item.name,
+            },
+            unit_amount: numericPrice * 100,
+          },
+          quantity: 1,
+        }
+      });
+    } else if (packageName && price) {
+        // Fallback for single item
+        const match = price.toString().match(/[\d,]+/);
+        const numericPart = match ? match[0].replace(/,/g, '') : "100";
+        const numericPrice = parseInt(numericPart) || 100;
+
+        line_items = [
+            {
+            price_data: {
+                currency: "usd",
+                product_data: {
+                name: packageName,
+                },
+                unit_amount: numericPrice * 100,
+            },
+            quantity: 1,
+            },
+        ];
+    } else {
       return NextResponse.json(
-        { error: "Missing package name or price" },
+        { error: "Missing items or package details" },
         { status: 400 }
       );
     }
 
-    // Convert price string (e.g., "$400 – $700") to a fixed amount.
-    // We strictly extract the first numeric value found.
-    const match = price.match(/[\d,]+/);
-    const numericPart = match ? match[0].replace(/,/g, '') : "100";
-    const numericPrice = parseInt(numericPart) || 100;
-
     // Create a Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: packageName,
-            },
-            unit_amount: numericPrice * 100, // Amount in cents
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: line_items,
       mode: "payment",
       success_url: `${req.headers.get("origin")}/?success=true`,
       cancel_url: `${req.headers.get("origin")}/?canceled=true`,

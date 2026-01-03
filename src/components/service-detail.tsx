@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check, Gamepad2, Globe, Palette, ChevronRight, Sparkles, Clock, Star, Plus, Code2 } from "lucide-react"
 import { Link } from '@/i18n/routing'
 import { ElementType, useState } from "react"
+import { useCart } from "@/context/cart-context"
 // import { toast } from "@/hooks/use-toast" // Removed to avoid missing module error
 
 const iconMap: { [key: string]: ElementType } = {
@@ -58,33 +59,18 @@ export function ServiceDetail({ service, slug }: ServiceDetailProps) {
   const Icon = iconMap[service.icon] || Globe
   const gradient = service.gradient || "from-primary to-primary/60"
   const accent = service.accent || "text-primary"
+  const { addItem } = useCart()
   const [loadingPkg, setLoadingPkg] = useState<string | null>(null)
 
-  const handlePurchase = async (pkg: ServicePricing) => {
-    setLoadingPkg(pkg.name)
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          packageName: pkg.name,
-          price: pkg.price
-        })
-      })
-
-      const data = await response.json()
-      
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        alert("Could not initiate checkout. Please try again.")
-      }
-    } catch (error) {
-      console.error(error)
-      alert("Something went wrong. Please try again.")
-    } finally {
-      setLoadingPkg(null)
-    }
+  const handleAddToCart = (pkg: ServicePricing) => {
+    // Add to cart
+    addItem({
+      id: pkg.name, // or generate random id handled by context
+      name: pkg.name,
+      price: pkg.price,
+      description: pkg.description,
+      serviceSlug: slug
+    })
   }
 
   return (
@@ -291,8 +277,7 @@ export function ServiceDetail({ service, slug }: ServiceDetailProps) {
 
                   <CardFooter className="p-8 pt-4">
                     <Button 
-                      onClick={() => handlePurchase(pkg)}
-                      disabled={loadingPkg === pkg.name}
+                      onClick={() => handleAddToCart(pkg)}
                       className={`w-full h-12 text-base rounded-xl transition-all shadow-lg ${
                         pkg.popular 
                           ? `bg-gradient-to-r ${gradient} text-white hover:opacity-90 hover:scale-[1.02]` 
@@ -300,7 +285,7 @@ export function ServiceDetail({ service, slug }: ServiceDetailProps) {
                       }`} 
                       variant={pkg.popular ? "default" : "secondary"} 
                     >
-                      {loadingPkg === pkg.name ? "Processing..." : `Get Started`}
+                      Add to Cart
                     </Button>
                   </CardFooter>
                 </Card>
@@ -343,7 +328,6 @@ export function ServiceDetail({ service, slug }: ServiceDetailProps) {
       )}
 
       {/* Partners Section - Web Development Only */}
-      {slug === 'web' && (
         <section className="py-20 border-t border-white/5 bg-white/[0.02] overflow-hidden">
           <div className="container mx-auto px-4 mb-12 text-center">
              <h3 className="text-xl md:text-2xl font-semibold text-white/40 uppercase tracking-widest">Trusted Partners</h3>
@@ -373,7 +357,6 @@ export function ServiceDetail({ service, slug }: ServiceDetailProps) {
             </motion.div>
           </div>
         </section>
-      )}
 
       {/* Final CTA */}
       <section className="py-32 relative overflow-hidden">

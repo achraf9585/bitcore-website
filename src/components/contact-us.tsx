@@ -7,9 +7,47 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Send, Mail, MapPin, Phone } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useState } from "react"
 
 export function ContactUs() {
   const t = useTranslations('Contact')
+  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    setStatus('idle')
+
+    const formData = new FormData(e.currentTarget)
+    const data = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    }
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        setStatus('success')
+        ;(e.target as HTMLFormElement).reset()
+      } else {
+        setStatus('error')
+      }
+    } catch (error) {
+      setStatus('error')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
@@ -40,7 +78,7 @@ export function ContactUs() {
                     </div>
                     <div>
                         <h4 className="font-semibold text-lg">{t('emailTitle')}</h4>
-                        <p className="text-muted-foreground">contact@bitcore.solution</p>
+                        <p className="text-muted-foreground">contact@bitcore_solution.com</p>
                     </div>
                 </div>
             </div>
@@ -77,34 +115,45 @@ export function ContactUs() {
              viewport={{ once: true }}
              className="bg-background/20 backdrop-blur-md border border-border/50 rounded-2xl p-8"
           >
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label htmlFor="firstName">{t('firstName')}</Label>
-                        <Input id="firstName" placeholder="John" className="bg-background/50" />
+                        <Input id="firstName" name="firstName" required placeholder="John" className="bg-background/50" disabled={loading} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="lastName">{t('lastName')}</Label>
-                        <Input id="lastName" placeholder="Doe" className="bg-background/50" />
+                        <Input id="lastName" name="lastName" required placeholder="Doe" className="bg-background/50" disabled={loading} />
                     </div>
                 </div>
                 
                 <div className="space-y-2">
                     <Label htmlFor="email">{t('email')}</Label>
-                    <Input id="email" type="email" placeholder="john@example.com" className="bg-background/50" />
+                    <Input id="email" name="email" type="email" required placeholder="john@example.com" className="bg-background/50" disabled={loading} />
                 </div>
 
                 <div className="space-y-2">
                     <Label htmlFor="message">{t('message')}</Label>
                     <Textarea 
-                        id="message" 
+                        id="message"
+                        name="message" 
+                        required
                         placeholder={t('message')} 
                         className="bg-background/50 min-h-[120px]" 
+                        disabled={loading}
                     />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full text-lg">
-                    {t('send')} <Send className="ml-2 h-4 w-4 rtl:rotate-180" />
+                {status === 'success' && (
+                  <p className="text-green-500 text-sm">Message sent successfully! We'll get back to you soon.</p>
+                )}
+                {status === 'error' && (
+                  <p className="text-red-500 text-sm">Something went wrong. Please try again later.</p>
+                )}
+
+                <Button type="submit" size="lg" className="w-full text-lg" disabled={loading}>
+                    {loading ? 'Sending...' : t('send')} 
+                    {!loading && <Send className="ml-2 h-4 w-4 rtl:rotate-180" />}
                 </Button>
             </form>
           </motion.div>

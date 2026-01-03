@@ -9,6 +9,7 @@ import { routing } from '@/i18n/routing';
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Chatbot } from "@/components/chatbot";
+import { CartProvider } from "@/context/cart-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,12 +65,14 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
             >
-            <Navbar />
-            <main className="min-h-screen text-foreground antialiased selection:bg-purple-500/30">
-              {children}
-            </main>
-            <Footer />
-            <Chatbot />
+            <CartProvider>
+                <Navbar />
+                <main className="min-h-screen text-foreground antialiased selection:bg-purple-500/30">
+                  {children}
+                </main>
+                <Footer />
+                <Chatbot />
+            </CartProvider>
             </ThemeProvider>
         </NextIntlClientProvider>
       </body>
