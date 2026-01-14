@@ -59,5 +59,38 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "rights": "All rights reserved."
+  },
+  "Team": {
+    "title": "Meet the Minds",
+    "subtitle": "The creative force driving Bitcore's innovation.",
+    "member1": "Achraf",
+    "role1": "Founder & Lead Developer",
+    "member2": "Sarah",
+    "role2": "Lead Designer",
+    "member3": "Mike",
+    "role3": "Backend Specialist",
+    "member4": "Emily",
+    "role4": "Project Manager"
+  },
+  "Settings": {
+    "title": "Account Settings",
+    "account": "Account",
+    "security": "Security",
+    "profile": "Profile",
+    "changePassword": "Change Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "updatePassword": "Update Password",
+    "passwordUpdated": "Password updated successfully",
+    "errorUpdating": "Error updating password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "email": "Email",
+    "signOut": "Sign Out",
+    "memberSince": "Member Since",
+    "lastSignIn": "Last Sign In",
+    "phone": "Phone Number",
+    "fullName": "Full Name",
+    "saveChanges": "Save Changes",
+    "profileUpdated": "Profile updated successfully"
   }
 }

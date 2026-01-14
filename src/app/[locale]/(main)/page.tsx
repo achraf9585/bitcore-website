@@ -5,6 +5,7 @@ import { Services } from "@/components/services";
 import { AboutUs } from "@/components/about-us";
 import { Testimonials } from "@/components/testimonials";
 import { ContactUs } from "@/components/contact-us";
+import { Team } from "@/components/team";
 import Image from "next/image";
 
 export default function Home() {
@@ -31,6 +32,7 @@ export default function Home() {
         <AboutUs />
         <Services />
         <Testimonials />
+        <Team />
         <ContactUs />
       </div>
     </div>

@@ -6,9 +6,6 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { Chatbot } from "@/components/chatbot";
 import { CartProvider } from "@/context/cart-context";
 
 const geistSans = Geist({
@@ -66,12 +63,7 @@ export default async function RootLayout({
             disableTransitionOnChange
             >
             <CartProvider>
-                <Navbar />
-                <main className="min-h-screen text-foreground antialiased selection:bg-purple-500/30">
-                  {children}
-                </main>
-                <Footer />
-                <Chatbot />
+                {children}
             </CartProvider>
             </ThemeProvider>
         </NextIntlClientProvider>
@@ -79,4 +71,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

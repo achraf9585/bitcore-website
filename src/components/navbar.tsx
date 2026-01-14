@@ -1,14 +1,14 @@
 "use client"
 
 import { Link } from "@/i18n/routing"
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { useState } from "react"
 import { CartSheet } from "@/components/cart-sheet"
 
-import { Home, Gamepad2, Code2, Palette, Mail, User as UserIcon, LogOut, LogIn } from "lucide-react"
+import { Home, Gamepad2, Code2, Palette, Mail, User as UserIcon, LogOut, LogIn, ArrowUp, Settings, History } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
 import { useEffect } from "react"
@@ -49,9 +49,37 @@ export function Navbar() {
   }
 
 
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 20)
+    const currentScrollY = latest
+    const previousScrollY = lastScrollY
+
+    // Smart Header Logic
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false
+
+    if (!isMobile) {
+      if (currentScrollY > previousScrollY && currentScrollY > 150) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+    } else {
+      setIsVisible(true)
+    }
+
+    // Scroll to Top Button Logic
+    setShowScrollTop(currentScrollY > 500)
+
+    setIsScrolled(currentScrollY > 20)
+    setLastScrollY(currentScrollY)
   })
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const navItems = [
     { href: '/', icon: Home, label: 'Home' },
@@ -66,8 +94,11 @@ export function Navbar() {
       {/* Desktop Header & Mobile Logo Header */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        animate={{ 
+          y: isVisible ? 0 : -100,
+          opacity: isVisible ? 1 : 0 
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
         className={`fixed top-0 md:top-6 left-0 right-0 z-50 flex justify-center px-4 transition-all duration-300 pointer-events-none`}
       >
           <div className={`
@@ -75,7 +106,7 @@ export function Navbar() {
             flex items-center justify-between md:justify-center w-full md:w-auto gap-12 px-6 py-2 md:rounded-full 
             transition-all duration-300
             ${isScrolled 
-              ? "bg-[#0f0518]/80 backdrop-blur-xl border-b md:border border-white/10 shadow-2xl shadow-purple-900/10" 
+              ? "bg-transparent md:bg-[#0f0518]/80 md:backdrop-blur-xl border-b border-transparent md:border-white/10 md:shadow-2xl md:shadow-purple-900/10" 
               : "bg-transparent md:border border-transparent"}
             font-[family-name:var(--font-montserrat)] font-medium
           `}>
@@ -126,10 +157,18 @@ export function Navbar() {
                     <DropdownMenuContent align="end" className="w-56 bg-[#0f0518]/95 backdrop-blur-xl border-white/10 text-white">
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>
                       <DropdownMenuSeparator className="bg-white/10" />
-                      <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer">
-                        <UserIcon className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
-                      </DropdownMenuItem>
+                      <Link href="/settings" className="w-full">
+                        <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer">
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href="/purchases" className="w-full">
+                        <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer">
+                          <History className="mr-2 h-4 w-4" />
+                          <span>Purchase History</span>
+                        </DropdownMenuItem>
+                      </Link>
                       <DropdownMenuItem onClick={handleSignOut} className="focus:bg-red-500/20 focus:text-red-400 text-red-400 cursor-pointer">
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
@@ -163,6 +202,21 @@ export function Navbar() {
           ))}
         </div>
       </div>
+
+      {/* Scroll To Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-24 md:bottom-8 right-4 md:right-8 z-50 p-3 bg-primary text-secondary rounded-full shadow-lg hover:bg-primary/90 transition-colors"
+          >
+            <ArrowUp size={24} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </>
   )
 }
